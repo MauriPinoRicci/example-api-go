@@ -3,11 +3,13 @@ package users
 import (
 	"errors"
 	"strings"
+
+	gonanoid "github.com/matoous/go-nanoid/v2"
 )
 
 type User struct {
 	id       string
-	username string
+	name string
 	email    string
 	status   string
 }
@@ -26,10 +28,10 @@ var AllStatus map[string]struct{} = map[string]struct{}{
 	StatusSuspended: {},
 }
 
-func NewUsers(id, username, email, status string) (*User, error) {
+func NewUsers(id, name, email, status string) (*User, error) {
 	user := &User{
 		id:       id,
-		username: username,
+		name: name,
 		email:    email,
 		status:   status,
 	}
@@ -44,12 +46,20 @@ func NewUsers(id, username, email, status string) (*User, error) {
 	return user, nil
 }
 
+func CreateUser(name string) (*User, error) {
+	id, err := gonanoid.New(10)
+	if err != nil {
+		return nil, err
+	}
+	return NewUsers(id, name, "test@gmail.com", StatusActive)
+}
+
 func (u *User) validate() error {
 	if u.id == "" {
 		return errors.New("invalid ID")
 	}
-	if u.username == "" {
-		return errors.New("invalid Username")
+	if u.name == "" {
+		return errors.New("invalid name")
 	}
 	if u.email == "" {
 		return errors.New("invalid Email")
@@ -70,8 +80,8 @@ func (s *User) ID() string {
 	return s.id
 }
 
-func (s *User) Username() string {
-	return s.username
+func (s *User) Name() string {
+	return s.name
 }
 
 func (s *User) Email() string {

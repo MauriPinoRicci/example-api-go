@@ -1,10 +1,40 @@
 package server
 
 import (
+	"encoding/json"
+	"fmt"
 	"net/http"
+
+	"github.com/MauriPinoRicci/example-api-go/server/application/create_srv"
+	"github.com/MauriPinoRicci/example-api-go/server/infra/users_dynamo"
 )
 
-func getMensaje(w http.ResponseWriter, r *http.Request) {
+func createUser(w http.ResponseWriter, r *http.Request) {
+	var input create_srv.CreateUserInput
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+
+	createSrv := create_srv.NewService(users_dynamo.New())
+
+	resp, err := createSrv.CreateUser(r.Context(), &input)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	respByte, err := json.Marshal(resp)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("¡Hola desde Chi con un Controller! 🚀"))
+	w.Write(respByte)
 }

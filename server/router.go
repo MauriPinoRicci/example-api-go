@@ -7,8 +7,7 @@ import (
 func InitRouter() *chi.Mux {
 	router := chi.NewRouter()
 
-	// Endpoint GET que devuelve un mensaje usando el controlador
-	router.Get("/", getMensaje)
+	router.Post("/users", createUser)
 	
 
 	return router

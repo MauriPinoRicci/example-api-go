@@ -1,0 +1,5 @@
+.DS_Store
+.vscode
+service
+__debug_bin*
+.env
