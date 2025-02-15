@@ -19,8 +19,8 @@ func NewUsersInMem() *UsersInMem {
 
 var _ users.Repository = (*UsersInMem)(nil) // implement interface
 
-func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error{
-	s.users[entity.ID()] = entity
+func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error {
+	s.users[entity.Id] = entity
 	return nil
 }
 

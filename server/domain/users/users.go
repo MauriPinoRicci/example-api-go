@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	id       string
-	name string
-	email    string
-	status   string
+	Id     string
+	Name   string
+	Email  string
+	Status string
 }
 
 const (
@@ -30,10 +30,10 @@ var AllStatus map[string]struct{} = map[string]struct{}{
 
 func NewUsers(id, name, email, status string) (*User, error) {
 	user := &User{
-		id:       id,
-		name: name,
-		email:    email,
-		status:   status,
+		Id:     id,
+		Name:   name,
+		Email:  email,
+		Status: status,
 	}
 
 	user.normalize()
@@ -55,16 +55,16 @@ func CreateUser(name string) (*User, error) {
 }
 
 func (u *User) validate() error {
-	if u.id == "" {
+	if u.Id == "" {
 		return errors.New("invalid ID")
 	}
-	if u.name == "" {
+	if u.Name == "" {
 		return errors.New("invalid name")
 	}
-	if u.email == "" {
+	if u.Email == "" {
 		return errors.New("invalid Email")
 	}
-	_, valid := AllStatus[u.status]
+	_, valid := AllStatus[u.Status]
 	if !valid {
 		return errors.New("invalid Status")
 	}
@@ -72,22 +72,22 @@ func (u *User) validate() error {
 }
 
 func (s *User) normalize() {
-	s.email = strings.ToLower(s.email)
-	s.status = strings.ToUpper(s.status)
+	s.Email = strings.ToLower(s.Email)
+	s.Status = strings.ToUpper(s.Status)
 }
 
-func (s *User) ID() string {
-	return s.id
+func (s *User) GetID() string {
+	return s.Id
 }
 
-func (s *User) Name() string {
-	return s.name
+func (s *User) GetName() string {
+	return s.Name
 }
 
-func (s *User) Email() string {
-	return s.email
+func (s *User) GetEmail() string {
+	return s.Email
 }
 
-func (s *User) Status() string {
-	return s.status
+func (s *User) GetStatus() string {
+	return s.Status
 }

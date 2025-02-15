@@ -13,10 +13,10 @@ type UserMsg struct {
 
 func BuildUserMsg(s *users.User) *UserMsg {
 	resp := &UserMsg{
-		ID:     s.ID(),
-		Name:   s.Name(),
-		Email:  s.Email(),
-		Status: s.Status(),
+		ID:     s.Id,
+		Name:   s.Name,
+		Email:  s.Email,
+		Status: s.Status,
 	}
 
 	return resp

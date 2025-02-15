@@ -2,6 +2,7 @@ package create_srv
 
 import (
 	"context"
+	"errors"
 
 	"github.com/MauriPinoRicci/example-api-go/server/domain/users"
 )
@@ -15,6 +16,17 @@ type CreateUserInput struct {
 }
 
 type CreateUserOutput struct {
+	ID     string `json:"id"`
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+	Status string `json:"status"`
+}
+
+type GetUserInput struct {
+	ID string `json:"id"`
+}
+
+type GetUserOutput struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 	Email  string `json:"email"`
@@ -38,15 +50,29 @@ func (s *Service) CreateUser(ctx context.Context, input *CreateUserInput) (*Crea
 	}
 
 	return &CreateUserOutput{
-		ID:     user.ID(),
-		Name:   user.Name(),
-		Email:  user.Email(),
-		Status: user.Status(),
+		ID:     user.Id,
+		Name:   user.Name,
+		Email:  user.Email,
+		Status: user.Status,
 	}, nil
 }
 
-func (s *Service) GetUserByID(ctx context.Context, id string) (*users.User, error) {
-	return s.repo.GetByID(ctx, id)
+func (s *Service) GetUserByID(ctx context.Context, Id string) (*GetUserOutput, error) {
+	user, err := s.repo.GetByID(ctx, Id)
+	if err != nil {
+		return nil, err
+	}
+
+	if user == nil {
+		return nil, errors.New("user not found")
+	}
+
+	return &GetUserOutput{
+		ID:     user.Id,
+		Name:   user.Name,
+		Email:  user.Email,
+		Status: user.Status,
+	}, nil
 }
 
 func (s *Service) DeleteUser(ctx context.Context, id string) error {
