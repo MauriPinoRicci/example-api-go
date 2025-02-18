@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	id       string
-	name string
-	email    string
-	status   string
+	id     string
+	name   string
+	email  string
+	status string
 }
 
 const (
@@ -30,10 +30,10 @@ var AllStatus map[string]struct{} = map[string]struct{}{
 
 func NewUsers(id, name, email, status string) (*User, error) {
 	user := &User{
-		id:       id,
-		name: name,
-		email:    email,
-		status:   status,
+		id:     id,
+		name:   name,
+		email:  email,
+		status: status,
 	}
 
 	user.normalize()
@@ -53,6 +53,7 @@ func CreateUser(name string) (*User, error) {
 	}
 	return NewUsers(id, name, "test@gmail.com", StatusActive)
 }
+
 
 func (u *User) validate() error {
 	if u.id == "" {

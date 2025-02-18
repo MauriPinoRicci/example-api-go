@@ -1,4 +1,4 @@
-package create_srv
+package get_srv
 
 import (
 	"context"
@@ -10,11 +10,11 @@ type Service struct {
 	repo users.Repository
 }
 
-type CreateUserInput struct {
-	Name string `json:"name"`
+type GetUserInput struct {
+	ID string `json:"id"`
 }
 
-type CreateUserOutput struct {
+type GetUserOutput struct {
 	ID     string `json:"id"`
 	Name   string `json:"name"`
 	Email  string `json:"email"`
@@ -25,22 +25,17 @@ func NewService(repo users.Repository) *Service {
 	return &Service{repo}
 }
 
-func (s *Service) CreateUser(ctx context.Context, input *CreateUserInput) (*CreateUserOutput, error) {
-
-	user, err := users.CreateUser(input.Name)
+func (s *Service) GetByID(ctx context.Context, input *GetUserInput) (*GetUserOutput, error) {
+	user, err := s.repo.GetByID(ctx, input.ID)
 	if err != nil {
 		return nil, err
 	}
 
-	err = s.repo.Save(ctx, user)
-	if err != nil {
-		return nil, err
-	}
-
-	return &CreateUserOutput{
+	return &GetUserOutput{
 		ID:     user.ID(),
 		Name:   user.Name(),
 		Email:  user.Email(),
 		Status: user.Status(),
 	}, nil
+
 }
