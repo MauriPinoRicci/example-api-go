@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/MauriPinoRicci/example-api-go/server/application/create_srv"
-	"github.com/MauriPinoRicci/example-api-go/server/infra/users_dynamo"
+	"github.com/MauriPinoRicci/example-api-go/users/application/create_srv"
+	"github.com/MauriPinoRicci/example-api-go/users/infra/users_dynamo"
 )
 
 func createUser(w http.ResponseWriter, r *http.Request) {
