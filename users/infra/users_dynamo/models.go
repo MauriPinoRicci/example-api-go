@@ -1,8 +1,6 @@
 package users_dynamo
 
-import (
-	"github.com/MauriPinoRicci/example-api-go/server/domain/users"
-)
+import "github.com/MauriPinoRicci/example-api-go/users/domain/users"
 
 type UserMsg struct {
 	ID     string `dynamodbav:"id,omitempty" json:"id,omitempty"`

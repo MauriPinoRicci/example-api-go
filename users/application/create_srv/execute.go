@@ -3,7 +3,7 @@ package create_srv
 import (
 	"context"
 
-	"github.com/MauriPinoRicci/example-api-go/server/domain/users"
+	"github.com/MauriPinoRicci/example-api-go/users/domain/users"
 )
 
 type Service struct {

@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/MauriPinoRicci/example-api-go/server/domain/users"
+	"github.com/MauriPinoRicci/example-api-go/users/domain/users"
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
-	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 )
 
 type repo struct {
@@ -48,7 +48,7 @@ func (s *repo) Save(ctx context.Context, entity *users.User) error {
 	}
 
 	table := "Users"
-	_, err =  s.client.PutItem(ctx, &dynamodb.PutItemInput{
+	_, err = s.client.PutItem(ctx, &dynamodb.PutItemInput{
 		TableName: &table,
 		Item:      item,
 	})

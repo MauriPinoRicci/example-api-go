@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/MauriPinoRicci/example-api-go/server"
+	"github.com/MauriPinoRicci/example-api-go/users/server"
 	"github.com/joho/godotenv"
 )
 
@@ -18,7 +18,7 @@ func main() {
 
 	// Inicializamos el servidor
 	router := server.InitRouter()
-	
+
 	// Levantar el servidor
 	port := ":8080"
 	fmt.Println("Servidor corriendo en http://localhost" + port)
