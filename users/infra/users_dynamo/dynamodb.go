@@ -4,32 +4,23 @@ import (
 	"context"
 	"errors"
 	"log"
-	"os"
 
 	"github.com/MauriPinoRicci/example-api-go/users/domain/users"
 	"github.com/aws/aws-sdk-go-v2/config"
-	"github.com/aws/aws-sdk-go-v2/credentials"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 )
 
 type repo struct {
-	client *dynamodb.Client
+	client    *dynamodb.Client
 	tableName *string
 }
 
 var _ users.Repository = (*repo)(nil) // implement interface
 
 func New() *repo {
-	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithRegion(os.Getenv("AWS_REGION")),
-		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(
-			os.Getenv("AWS_ACCESS_KEY_ID"),
-			os.Getenv("AWS_SECRET_ACCESS_KEY"),
-			"",
-		)),
-	)
+	cfg, err := config.LoadDefaultConfig(context.TODO(), config.WithRegion("us-east-2"))
 	if err != nil {
 		log.Fatalf("Error al cargar configuración: %v", err)
 	}
@@ -37,7 +28,7 @@ func New() *repo {
 	svc := dynamodb.NewFromConfig(cfg)
 	table := "Users"
 	return &repo{
-		client: svc,
+		client:    svc,
 		tableName: &table,
 	}
 }

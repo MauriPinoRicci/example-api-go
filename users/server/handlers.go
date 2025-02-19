@@ -8,6 +8,7 @@ import (
 	"github.com/MauriPinoRicci/example-api-go/users/application/create_srv"
 	"github.com/MauriPinoRicci/example-api-go/users/application/get_srv"
 	"github.com/MauriPinoRicci/example-api-go/users/infra/users_dynamo"
+	"github.com/go-chi/chi/v5"
 )
 
 func createUser(w http.ResponseWriter, r *http.Request) {
@@ -41,12 +42,12 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 }
 
 func GetByID(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id") 
+	id := chi.URLParam(r, "id")
 
-    if id == "" {
-        http.Error(w, "missing id query parameter", http.StatusBadRequest)
-        return
-    }
+	if id == "" {
+		http.Error(w, "missing id query parameter", http.StatusBadRequest)
+		return
+	}
 
 	getSrv := get_srv.NewService(users_dynamo.New())
 
