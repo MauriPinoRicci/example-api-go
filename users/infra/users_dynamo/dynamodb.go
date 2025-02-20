@@ -81,5 +81,16 @@ func (s *repo) GetByID(ctx context.Context, id string) (*users.User, error) {
 }
 
 func (s *repo) Delete(ctx context.Context, id string) error {
+	_, err := s.client.DeleteItem(ctx, &dynamodb.DeleteItemInput{
+		TableName: s.tableName,
+		Key: map[string]types.AttributeValue{
+			"id": &types.AttributeValueMemberS{Value: id},
+		},
+	})
+
+	if err != nil {
+		return err
+	}
+	
 	return nil
 }
