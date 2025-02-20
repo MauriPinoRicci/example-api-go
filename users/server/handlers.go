@@ -22,7 +22,7 @@ func createUser(w http.ResponseWriter, r *http.Request) {
 
 	createSrv := create_srv.NewService(users_dynamo.New())
 
-	resp, err := createSrv.CreateUser(r.Context(), &input)
+	resp, err := createSrv.Execute(r.Context(), &input)
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
