@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/MauriPinoRicci/example-api-go/server/domain/users"
+	"github.com/MauriPinoRicci/example-api-go/users/domain/users"
 )
 
 type UsersInMem struct {

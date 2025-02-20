@@ -8,7 +8,7 @@ func InitRouter() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Post("/users", createUser)
-	
+	router.Get("/users/{id}", GetByID)
 
 	return router
 }
