@@ -92,3 +92,15 @@ func (s *User) Email() string {
 func (s *User) Status() string {
 	return s.status
 }
+
+func (u *User) SetName(name string) {
+    u.name = name
+}
+
+func (u *User) SetEmail(email string) {
+    u.email = email
+}
+
+func (u *User) SetStatus(status string) {
+    u.status = status
+}

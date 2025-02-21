@@ -83,3 +83,28 @@ func (s *repo) GetByID(ctx context.Context, id string) (*users.User, error) {
 func (s *repo) Delete(ctx context.Context, id string) error {
 	return nil
 }
+
+func (s *repo) Update(ctx context.Context, id string, updatedUser *users.User) (*users.User, error) {
+
+	existingUser, err := s.GetByID(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	if updatedUser.Name() == "" {
+		updatedUser.SetName(existingUser.Name())
+	}
+	if updatedUser.Email() == "" {
+		updatedUser.SetEmail(existingUser.Email())
+	}
+	if updatedUser.Status() == "" {
+		updatedUser.SetStatus(existingUser.Status())
+	}
+
+	err = s.Save(ctx, updatedUser)
+	if err != nil {
+		return nil, err
+	}
+
+	return updatedUser, nil
+}

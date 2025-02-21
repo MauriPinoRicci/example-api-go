@@ -40,3 +40,24 @@ func (s *UsersInMem) Delete(ctx context.Context, id string) error {
 	delete(s.users, id)
 	return nil
 }
+
+func (s *UsersInMem) Update(ctx context.Context, id string, updatedUser *users.User) (*users.User, error) {
+	user, exists := s.users[id]
+	if !exists {
+		return nil, fmt.Errorf("user with ID %s not found", id)
+	}
+
+	// Actualizar solo los valores que cambian
+	if updatedUser.Name() != "" {
+		user.SetName(updatedUser.Name())
+	}
+	if updatedUser.Email() != "" {
+		user.SetEmail(updatedUser.Email())
+	}
+	if updatedUser.Status() != "" {
+		user.SetStatus(updatedUser.Status())
+	}
+
+	// Retornar el usuario actualizado
+	return user, nil
+}
