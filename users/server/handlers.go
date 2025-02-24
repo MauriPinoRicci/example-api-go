@@ -80,7 +80,7 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 	deleteSrv := delete_srv.NewService(users_dynamo.New())
 
-	_, err := deleteSrv.Execute(r.Context(), &delete_srv.DeleteUserInput{ID: id})
+	err := deleteSrv.Execute(r.Context(), &delete_srv.DeleteUserInput{ID: id})
 	if err != nil {
 		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -88,7 +88,5 @@ func Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "text/plain")
-	w.WriteHeader(http.StatusOK)
-	w.Write([]byte("Usuario eliminado correctamente"))
+	w.WriteHeader(http.StatusNoContent)
 }
-

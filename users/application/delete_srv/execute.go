@@ -18,10 +18,10 @@ func NewService(repo users.Repository) *Service {
 	return &Service{repo}
 }
 
-func (s *Service) Execute(ctx context.Context, input *DeleteUserInput) (string, error) {
+func (s *Service) Execute(ctx context.Context, input *DeleteUserInput) error {
 	err := s.repo.Delete(ctx, input.ID)
 	if err != nil {
-		return "", err
+		return err
 	}
-	return "Usuario eliminado correctamente", nil
+	return nil
 }
