@@ -19,7 +19,7 @@ func NewUsersInMem() *UsersInMem {
 
 var _ users.Repository = (*UsersInMem)(nil) // implement interface
 
-func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error{
+func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error {
 	s.users[entity.ID()] = entity
 	return nil
 }
@@ -47,17 +47,6 @@ func (s *UsersInMem) Update(ctx context.Context, id string, updatedUser *users.U
 		return nil, fmt.Errorf("user with ID %s not found", id)
 	}
 
-	// Actualizar solo los valores que cambian
-	if updatedUser.Name() != "" {
-		user.SetName(updatedUser.Name())
-	}
-	if updatedUser.Email() != "" {
-		user.SetEmail(updatedUser.Email())
-	}
-	if updatedUser.Status() != "" {
-		user.SetStatus(updatedUser.Status())
-	}
-
-	// Retornar el usuario actualizado
+	s.users[id] = updatedUser
 	return user, nil
 }

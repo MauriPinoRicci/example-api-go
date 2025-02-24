@@ -91,17 +91,12 @@ func (s *repo) Update(ctx context.Context, id string, updatedUser *users.User) (
 		return nil, err
 	}
 
-	if updatedUser.Name() == "" {
-		updatedUser.SetName(existingUser.Name())
-	}
-	if updatedUser.Email() == "" {
-		updatedUser.SetEmail(existingUser.Email())
-	}
-	if updatedUser.Status() == "" {
-		updatedUser.SetStatus(existingUser.Status())
+	err = existingUser.UpdateUser(updatedUser.Name(), updatedUser.Email(), updatedUser.Status())
+	if err != nil {
+		return nil, err
 	}
 
-	err = s.Save(ctx, updatedUser)
+	err = s.Save(ctx, existingUser)
 	if err != nil {
 		return nil, err
 	}
