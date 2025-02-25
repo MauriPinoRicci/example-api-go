@@ -51,13 +51,23 @@ func CreateUser(name string) (*User, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	return NewUsers(id, name, "test@gmail.com", StatusActive)
 }
 
 func (u *User) UpdateUser(name, email, status string) error {
-	u.name = name
-	u.email = email
-	u.status = status
+	if name != "" {
+		u.name = name
+	}
+
+	if email != "" {
+		u.email = email
+	}
+
+	if status != "" {
+		u.status = status
+	}
+
 	u.normalize()
 	return u.validate()
 }
@@ -66,16 +76,20 @@ func (u *User) validate() error {
 	if u.id == "" {
 		return errors.New("invalid ID")
 	}
+
 	if u.name == "" {
 		return errors.New("invalid name")
 	}
+
 	if u.email == "" {
 		return errors.New("invalid Email")
 	}
+
 	_, valid := AllStatus[u.status]
 	if !valid {
 		return errors.New("invalid Status")
 	}
+
 	return nil
 }
 

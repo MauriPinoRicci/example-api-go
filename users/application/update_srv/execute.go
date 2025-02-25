@@ -23,14 +23,18 @@ func NewService(repo users.Repository) *Service {
 }
 
 func (s *Service) Update(ctx context.Context, input *UpdateUserInput) (*shared.UserOutput, error) {
+
 	user, err := s.repo.GetByID(ctx, input.ID)
 	if err != nil {
 		return nil, err
 	}
+
 	user.UpdateUser(input.Name, input.Email, input.Status)
+
 	err = s.repo.Save(ctx, user)
 	if err != nil {
 		return nil, err
 	}
+
 	return shared.BuildUserOutput(user), nil
 }

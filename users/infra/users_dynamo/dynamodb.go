@@ -91,26 +91,6 @@ func (s *repo) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return err
 	}
-	
+
 	return nil
-}
-
-func (s *repo) Update(ctx context.Context, id string, updatedUser *users.User) (*users.User, error) {
-
-	existingUser, err := s.GetByID(ctx, id)
-	if err != nil {
-		return nil, err
-	}
-
-	err = existingUser.UpdateUser(updatedUser.Name(), updatedUser.Email(), updatedUser.Status())
-	if err != nil {
-		return nil, err
-	}
-
-	err = s.Save(ctx, existingUser)
-	if err != nil {
-		return nil, err
-	}
-
-	return updatedUser, nil
 }
