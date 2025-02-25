@@ -16,8 +16,11 @@ func main() {
 		log.Fatalf("Error al cargar archivo .env: %v", err)
 	}
 
+	// Inicializamos las dependencias
+	dependencies := server.InitDependencies()
+
 	// Inicializamos el servidor
-	router := server.InitRouter()
+	router := server.InitRouter(dependencies)
 
 	// Levantar el servidor
 	port := ":8080"
