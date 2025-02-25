@@ -9,4 +9,3 @@ type Repository interface {
 	GetByID(ctx context.Context, id string) (*User, error)
 	Delete(ctx context.Context, id string) error
 }
-

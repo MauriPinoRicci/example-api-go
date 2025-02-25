@@ -4,12 +4,15 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func InitRouter() *chi.Mux {
+func InitRouter(dep *Dependencies) *chi.Mux {
 	router := chi.NewRouter()
 
-	router.Post("/users", createUser)
-	router.Get("/users/{id}", GetByID)
-	router.Delete("/users/{id}",Delete)
+	handlers := NewHandlers(dep)
+
+	router.Post("/users", handlers.create)
+	router.Get("/users/{id}", handlers.GetByID)
+	router.Put("/users/{id}", handlers.Update)
+	router.Delete("/users/{id}", handlers.Delete)
 
 	return router
 }

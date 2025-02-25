@@ -19,7 +19,7 @@ func NewUsersInMem() *UsersInMem {
 
 var _ users.Repository = (*UsersInMem)(nil) // implement interface
 
-func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error{
+func (s *UsersInMem) Save(ctx context.Context, entity *users.User) error {
 	s.users[entity.ID()] = entity
 	return nil
 }
@@ -37,6 +37,7 @@ func (s *UsersInMem) Delete(ctx context.Context, id string) error {
 	if !exists {
 		return nil
 	}
+
 	delete(s.users, id)
 	return nil
 }

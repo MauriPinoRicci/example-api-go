@@ -23,8 +23,8 @@ func BuildUserMsg(s *users.User) *UserMsg {
 func (s *UserMsg) ToUser() (*users.User, error) {
 	return users.NewUsers(
 		s.ID,
-		s.Email,
 		s.Name,
+		s.Email,
 		s.Status,
 	)
 }
