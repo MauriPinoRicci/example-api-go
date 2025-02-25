@@ -10,6 +10,7 @@ func InitRouter() *chi.Mux {
 	router.Post("/users", create)
 	router.Get("/users/{id}", GetByID)
 	router.Put("/users/{id}", Update)
+	router.Delete("/users/{id}", Delete)
 
 	return router
 }

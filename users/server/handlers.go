@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/MauriPinoRicci/example-api-go/users/application/create_srv"
+	"github.com/MauriPinoRicci/example-api-go/users/application/delete_srv"
 	"github.com/MauriPinoRicci/example-api-go/users/application/get_srv"
 	"github.com/MauriPinoRicci/example-api-go/users/application/update_srv"
 	"github.com/MauriPinoRicci/example-api-go/users/infra/users_dynamo"
@@ -71,7 +72,7 @@ func GetByID(w http.ResponseWriter, r *http.Request) {
 	w.Write(respByte)
 }
 
-func Update(w http.ResponseWriter, r *http.Request){
+func Update(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 
 	if id == "" {
@@ -109,4 +110,24 @@ func Update(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(respByte)
+}
+
+func Delete(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+
+	if id == "" {
+		http.Error(w, "missing id query parameter", http.StatusBadRequest)
+		return
+	}
+	deleteSrv := delete_srv.NewService(users_dynamo.New())
+
+	err := deleteSrv.Execute(r.Context(), &delete_srv.DeleteUserInput{ID: id})
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	w.Header().Set("Content-Type", "text/plain")
+	w.WriteHeader(http.StatusNoContent)
 }
